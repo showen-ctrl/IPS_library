@@ -1,0 +1,70 @@
+download网址：https://dev.mysql.com/downloads/mysql/
+
+将MySQL的bin目录添加到环境变量Path的路径中
+
+bin目录下新建data文件
+
+bin目录下新建并配置文件my.ini
+[mysqld]
+port=3306 
+basedir=C:\workspace\mysql-8.0.31-winx64
+datadir=C:\workspace\mysql-8.0.31-winx64\data
+max_connections=200
+character-set-server=utf8
+default-storage-engine=INNODB
+
+以管理员身份启动cmd，到MySQL软件的bin目录下。
+运行：mysqld --initialize --user=mysql --console
+注意保存界面最后一行打印的MySQL的root用户初始密码，本次生成的密码为-feW,1tJ%Tl?
+
+依次执行以下命令（仍以管理员身份执行），完成安装和MySQL服务启动。
+mysqld -install
+net start mysql
+
+初次登录MySQL，并修改密码
+登录MySQL：
+mysql -u root -p
+输入初始化MySQL时得到的初始密码，完成登录。
+之后执行修改密码（演示修改密码为Abc@1234）,并提交：
+
+ALTER USER root@localhost IDENTIFIED BY 'Jiangwen@99';
+commit;
+
+停止MySQL服务命令
+以管理员身份执行命令：net stop mysql
+
+或者以普通用户身份执行命令：mysqladmin -u root shutdown -p
+然后根据提示输入root密码即可。
+------------------------------------------------------------------------------------------------------------------------
+
+数据还原
+<--1-->
+mysql -u root -p library < dump_library.sql
+<--2-->
+//mysql -u root -p -e "create database library"
+use library
+source C:\install_pj\book02\ManageBooks-master/dump_library.sql
+
+查看多少个数据库
+show databases;
+
+使用该数据库
+use <数据库名>;
+
+删除数据库
+drop database <数据库名>;
+
+查看当前库下有哪些表
+show tables;
+
+查看表结构
+desc table_name;
+
+查看表下面那些列
+show columns from tables;
+
+------------------------------------------------------------------------------------------------------------------------
+禁用外键检查
+set foreign_key_checks=0;
+外键检查
+set foreign_key_checks=1;
